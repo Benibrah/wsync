@@ -1,5 +1,8 @@
 -- WorldSync (wsync) Lua-file
 -- Made by Benibrah (on GitHub)
+-- To use this you need json.luas as well as following components:
+-- - Internet Card
+-- - Debug Card
 
 -- Variables
 print("Enter city name")
@@ -11,7 +14,7 @@ local web = require("internet") -- Load Internet lib
 local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
 
--- Utility function which returns weather data
+--Utility function which returns weather data
 getWeather = function()
   -- Get API data from OpenWeathermap.org (Calls are limited per hour)
   local request = web.request("http://api.openweathermap.org/data/2.5/weather?q="..PLACE.."&units=metric&APPID=389f7c63dde7b6827ce720d61c4a8237")
@@ -19,14 +22,14 @@ getWeather = function()
   return data
 end
 
---Initialize variable once
+--Initial Status
 weatherStatus = ""
 
 --Set new weather if it changed
-setWeather = function(oldStatus)
+setWeather = function()
   --Comparison of old/new value
   local newWeather = getWeather()["weather"][1]["main"]
-  if oldStatus ~= newWeather then
+  if newWeather ~= weatherStatus then
     weatherStatus = newWeather
     
     --Setting actual weather
@@ -40,14 +43,11 @@ setWeather = function(oldStatus)
   end
 end
 
---------------------------time------------------------------------------------------------------------------------------------
-
-
 --------------------------Execution-------------------------------------------------------------------------------------------
 
 while true do
-  setWeather(weatherStatus)
-  os.sleep(5)
+  setWeather()
+  os.sleep(360)
 end
 
 

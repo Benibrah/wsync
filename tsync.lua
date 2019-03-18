@@ -17,23 +17,25 @@ mapTime = function(t)
 end
 
 -- Ingame time Cycle gets deactivated
-debug.runCommand("gameRule doDaylightCycle false")
+debug.runCommand("gamerule doDaylightCycle false")
 
--- Deactivates nasty chat messages from commands
-debug.runCommand("gameRule sendCommandFeedback false")
+--Deactivates nasty chat messages from commands
+debug.runCommand("gamerule sendCommandFeedback false")   
 
-function start()
-  thread.create(function()
-    while true do
-      --Get Time data from IP
-      local timeData = web.request("http://worldtimeapi.org/api/ip")
-      local timeTable = json.decode(timeData())
+print("Started TSync, CTRL + C to continue")
+t = thread.create(function()
+  while true do
+    --Get Time data from IP
+    local timeData = web.request("http://worldtimeapi.org/api/ip")
+    local timeTable = json.decode(timeData())
     
-      --Get exact hour
-      local hour = string.sub(timeTable["datetime"],12,13)
-     
-      debug.runCommand("time set " .. tonumber(string.format("%18.0f", mapTime(hour))))
-      os.sleep(3)
-    end
-  end)
-end
+    --Get exact hour
+    local hour = string.sub(timeTable["datetime"],12,13)
+        
+    --Sets time
+    debug.runCommand("time set " .. tonumber(string.format("%18.0f", mapTime(hour))))
+       
+    --Wait   
+    os.sleep(3)
+  end
+end)

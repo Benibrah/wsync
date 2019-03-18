@@ -16,18 +16,24 @@ mapTime = function(t)
   return ((t-6)/(24))*24000 % 24000
 end
 
+-- Ingame time Cycle gets deactivated
+debug.runCommand("gameRule doDaylightCycle false")
+
+-- Deactivates nasty chat messages from commands
+debug.runCommand("gameRule sendCommandFeedback false")
+
 function start()
-  while true do
-    thread.create(function()
-    --Get Time data from IP
-    local timeData = web.request("http://worldtimeapi.org/api/ip")
-    local timeTable = json.decode(timeData())
+  thread.create(function()
+    while true do
+      --Get Time data from IP
+      local timeData = web.request("http://worldtimeapi.org/api/ip")
+      local timeTable = json.decode(timeData())
     
-    --Get exact hour
-     local hour = string.sub(timeTable["datetime"],12,13)
+      --Get exact hour
+      local hour = string.sub(timeTable["datetime"],12,13)
      
-    debug.runCommand("set time " .. tonumber(string.format("%18.0f", mapTime(hour))))
-    os.sleep(10)
-    end)
-  end
+      debug.runCommand("time set " .. tonumber(string.format("%18.0f", mapTime(hour))))
+      os.sleep(3)
+    end
+  end)
 end

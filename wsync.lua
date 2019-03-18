@@ -45,9 +45,11 @@ end
 
 --------------------------Execution-------------------------------------------------------------------------------------------
 
-while true do
-  setWeather()
-  os.sleep(360)
+function start()
+  while true do
+    setWeather()
+    os.sleep(360)
+  end
 end
 
 

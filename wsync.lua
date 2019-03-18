@@ -1,12 +1,8 @@
 -- WorldSync (wsync) Lua-file
 -- Made by Benibrah (on GitHub)
--- To use this you need json.luas as well as following components:
+-- To use this you need json.lua as well as following components:
 -- - Internet Card
 -- - Debug Card
-
--- Variables
-print("Enter city name")
-local PLACE = io.read()
 
 --------------------------weather---------------------------------------------------------------------------------------------
 
@@ -14,10 +10,14 @@ local web = require("internet") -- Load Internet lib
 local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
 
+--Variables
+[[CHANGE PLAVE TO YOUR CITY!]]
+local place = "Moscow"
+
 --Utility function which returns weather data
 getWeather = function()
   -- Get API data from OpenWeathermap.org (Calls are limited per hour)
-  local request = web.request("http://api.openweathermap.org/data/2.5/weather?q="..PLACE.."&units=metric&APPID=389f7c63dde7b6827ce720d61c4a8237")
+  local request = web.request("http://api.openweathermap.org/data/2.5/weather?q="..place.."&units=metric&APPID=389f7c63dde7b6827ce720d61c4a8237")
   local data = json.decode(request())
   return data
 end
@@ -51,5 +51,4 @@ function start()
     os.sleep(360)
   end
 end
-
 

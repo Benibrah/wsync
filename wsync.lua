@@ -11,7 +11,7 @@ local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
 
 --Variables
-[[CHANGE PLAVE TO YOUR CITY!]]
+[[CHANGE PLACE TO YOUR CITY!]]
 local place = "Moscow"
 
 --Utility function which returns weather data

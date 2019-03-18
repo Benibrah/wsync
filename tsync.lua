@@ -11,6 +11,8 @@ local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
 local thread = require("thread")
 
+os.execute("echo 'tsync.lua'>.shrc")
+
 --Map real time to ingame time
 mapTime = function(t)
   return ((t-6)/(24))*24000 % 24000
@@ -22,7 +24,7 @@ debug.runCommand("gamerule doDaylightCycle false")
 --Deactivates nasty chat messages from commands
 debug.runCommand("gamerule sendCommandFeedback false")   
 
-print("Started TSync, CTRL + C to continue")
+print("Started TSync, wait some seconds then press CTRL + ALT + C to continue")
 t = thread.create(function()
   while true do
     --Get Time data from IP

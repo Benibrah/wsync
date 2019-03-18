@@ -9,6 +9,7 @@
 local web = require("internet") -- Load Internet lib
 local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
+local thread = require("thread")
 
 --Map real time to ingame time
 mapTime = function(t)
@@ -17,7 +18,7 @@ end
 
 function start()
   while true do
-    
+    thread.create(function()
     --Get Time data from IP
     local timeData = web.request("http://worldtimeapi.org/api/ip")
     local timeTable = json.decode(timeData())
@@ -27,5 +28,6 @@ function start()
      
     debug.runCommand("set time " .. tonumber(string.format("%18.0f", mapTime(hour))))
     os.sleep(10)
+    end)
   end
 end

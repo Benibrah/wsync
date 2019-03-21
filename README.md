@@ -8,7 +8,7 @@ Sync your local time and weather with Minecraft!
 2. Weather gets set according to your local weather. CommandFeedback in the Chat get's deactivated.
 3. Time gets set (Uses your IP to determine position)
 4. WSync updates every 5 minutes
-5. To End press CTRL + Alt + C
+5. To End press CTRL + Alt + C or Reboot
 
 [Uninstall]
 1. Simply delete wsync.lua like this -> del wsync.lua

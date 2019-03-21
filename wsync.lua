@@ -9,45 +9,35 @@
 local web = require("internet") -- Load Internet lib
 local json = require("json") -- Load JSON module
 local debug = require("component").debug -- Get debug card
+local thread = require("thread") -- Load Thread API for background process
 
--- CHANGE TO YOUR TOWN/CITY
-local place = "Moscow"
+-- Input
+print("Name of your city:")
+local city = io.read()
 
---Utility function which returns weather data
-getWeather = function()
-  -- Get API data from OpenWeathermap.org (Calls are limited per hour)
-  local request = web.request("http://api.openweathermap.org/data/2.5/weather?q="..place.."&units=metric&APPID=389f7c63dde7b6827ce720d61c4a8237")
-  local data = json.decode(request())
-  return data
-end
 
---Initial Status
-weatherStatus = ""
-
---Set new weather if it changed
-setWeather = function()
-  --Comparison of old/new value
-  local newWeather = getWeather()["weather"][1]["main"]
-  if newWeather ~= weatherStatus then
-    weatherStatus = newWeather
-    
-    --Setting actual weather
-    if weatherStatus == "Rain" or weatherStatus == "Drizzle" then
-      debug.runCommand("weather rain")
-    elseif weatherStatus == "Thunderstorm" then
-      debug.runCommand("weather thunder")
-    else
-      debug.runCommand("weather clear")
-    end
+-- Weather changing function
+local setWeather = function(status)
+  if status == "Rain" or status == "Drizzle" then
+    debug.runCommand("weather rain 360")
+  elseif status == "Thunderstorm" then
+    debug.runCommand("weather thunder 360")
+  else
+     debug.runCommand("weather clear 360")
   end
+  print("City recognized! Setting weather")
+  print("Press CTRL+ALT+C to continue")
 end
 
 --------------------------Execution-------------------------------------------------------------------------------------------
 
-function start()
-  while true do
-    setWeather()
-    os.sleep(360)
-  end
-end
-
+--Create thread to run in background
+thread.create(function()
+    while true do
+      local request = web.request("http://api.openweathermap.org/data/2.5/weather?q="..city.."&units=metric&APPID=389f7c63dde7b6827ce720d61c4a8237")
+      local data = json.decode(request())
+      local status = data["weather"][1]["main"]
+      setWeather(status)
+      os.sleep(360)
+    end
+  end)

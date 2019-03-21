@@ -13,7 +13,7 @@ Sync your local time and weather with Minecraft!
 [Uninstall]
 1. Simply delete wsync.lua like this -> del wsync.lua
 2. Run following commands to reset gamerules:
-  /doWeatherCycle true
-  /doTimeCycle true
-  /sendCommandFeedback true
+  - /doWeatherCycle true
+  - /doTimeCycle true
+  - /sendCommandFeedback true
 3. Finished! Everything should work like before
